@@ -9,7 +9,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.storageManager.clearIfOutdated(this.version);
 
   this.startTiles     = 2;
-  this.winningValue = "56Iron";
+  this.winningValue = "63Copper";
 
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
@@ -332,47 +332,56 @@ GameManager.prototype.fusionRules = {
 							"Deuteron":"3Helium"
 						 },
   "3Helium":{"3Helium":"4Helium",
-							"4Helium":"7Beryllium"
+							"4Helium":"7Beryllium",
+	                                                "60Nickel":"63Copper"
 						},
   "4Helium":{"4Helium":"8Beryllium", // unstable decays into 2 4heliums
 						 "8Beryllium":"12Carbon",
 						 "12Carbon":"16Oxygen",
 						 "16Oxygen":"20Neon",
-						 "20Neon":"24Magnesium", // this is a killer!
+						 "20Neon":"24Magnesium", // this is not a killer anymore!
+	                                         "24Magnesium":"28Silicon",
 						 "28Silicon":"32Sulfur",
 						 "32Sulfur":"36Argon",
 						 "36Argon":"40Calcium",
 						 "40Calcium":"44Titanium",
 						 "44Titanium":"48Chromium",
 						 "48Chromium":"52Iron",
-						 "52Iron":"56Nickel"
+						 "52Iron":"56Nickel",
+	                                         "56Nickel":"60Nickel",
+	      					 "60Nickel":"64Zinc"
 						},
-  "16Oxygen":{"16Oxygen":"28Silicon", // + 4Helium
+  "16Oxygen":{"16Oxygen":"28Silicon",
+	      "48Chromium":"64Zinc"
              },
-  "12Carbon":{"12Carbon":"20Neon", // + 4Helium (randomness)
+  "12Carbon":{"12Carbon":"24Magnesium",
+	      "40Calcium":"52Iron"
 						 }
 };
 
 GameManager.prototype.labels = {
   "Hydrogen": "Hydrogen",
-  "Deuteron": "Deuteron",
-  "3Helium": "<sup>3</sup>Helium",
-  "4Helium": "<sup>4</sup>Helium",
-  "7Beryllium": "<sup>7</sup>Beryllium",
-  "8Beryllium": "<sup>8</sup>Beryllium",
-  "12Carbon": "<sup>12</sup>Carbon",
-  "16Oxygen": "<sup>16</sup>Oxygen",
-  "20Neon": "<sup>20</sup>Neon",
-  "24Magnesium": "<sup>24</sup>Magnesium",
-  "28Silicon": "<sup>28</sup>Silicon",
-  "32Sulfur": "<sup>32</sup>Sulfur",
-  "36Argon": "<sup>36</sup>Argon",
-  "40Calcium": "<sup>40</sup>Calcium",
-  "44Titanium": "<sup>44</sup>Titanium",
-  "48Chromium": "<sup>48</sup>Chromium",
-  "52Iron": "<sup>52</sup>Iron",
-  "56Nickel": "<sup>56</sup>Nickel",
-  "56Iron": "<sup>56</sup>Iron"
+  "Deuteron": "Deuterium",
+  "3Helium": "Tritrium",
+  "4Helium": "Helium",
+  "7Beryllium": "Beryllium",
+  "8Beryllium": "I-Beryllium",
+  "12Carbon": "Carbon",
+  "16Oxygen": "Oxygen",
+  "20Neon": "Neon",
+  "24Magnesium": "Magnesium",
+  "28Silicon": "Silicon",
+  "32Sulfur": "Sulfur",
+  "36Argon": "Argon",
+  "40Calcium": "Calcium",
+  "44Titanium": "Titanium",
+  "48Chromium": "Chromium",
+  "52Iron": "Iron-52",
+  "56Nickel": "Nickel-56",
+  "56Iron": "Iron-56",
+  "60Nickel": "Nickel-60",
+  "63Copper": "Copper",
+  "64Zinc": "Zinc"
 };
 
 GameManager.prototype.pointValues = {
@@ -394,6 +403,9 @@ GameManager.prototype.pointValues = {
   "52Iron":26,
   "56Nickel":28,
   "56Iron":56
+  "60Nickel":60,
+  "63Copper":80,
+  "64Zinc":24
 };
 
 GameManager.prototype.decay = {
@@ -421,5 +433,10 @@ GameManager.prototype.decay = {
     "multipler": "1.5",
     "to": "56Iron",
 		"points": 56
+  },
+  "64Zinc": {
+    "multipler": "1",
+    "to": "63Copper",
+	         "points": -20
   }
 };
